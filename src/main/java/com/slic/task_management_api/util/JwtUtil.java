@@ -1,4 +1,4 @@
-package com.slic.task_management_api.auth;
+package com.slic.task_management_api.util;
 
 import java.util.Date;
 import java.util.function.Function;

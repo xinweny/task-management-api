@@ -1,4 +1,4 @@
-package com.slic.task_management_api.user;
+package com.slic.task_management_api.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 

@@ -1,4 +1,4 @@
-package com.slic.task_management_api.user;
+package com.slic.task_management_api.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

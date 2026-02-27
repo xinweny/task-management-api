@@ -1,4 +1,4 @@
-package com.slic.task_management_api.auth;
+package com.slic.task_management_api.dto;
 
 public class AuthDto {
     public record LoginRequest(
