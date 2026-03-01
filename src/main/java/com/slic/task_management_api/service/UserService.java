@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.slic.task_management_api.dto.CreateUserRequest;
+import com.slic.task_management_api.dto.CreateUserRequestDto;
 import com.slic.task_management_api.model.User;
 import com.slic.task_management_api.repository.RoleRepository;
 import com.slic.task_management_api.repository.UserRepository;
@@ -32,10 +32,10 @@ public class UserService {
         this.roleRepository = roleRepository;
     }
 
-    public User createUser(CreateUserRequest params) {
+    public User createUser(CreateUserRequestDto req) {
         User user = User.builder()
-            .username(params.getUsername())
-            .password(passwordEncoder.encode(params.getPassword()))
+            .name(req.getName())
+            .password(passwordEncoder.encode(req.getPassword()))
             .roles(Arrays.asList(roleRepository.findByName("ROLE_USER"))) // Add user role by default
             .build();
         

@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Privilege implements GrantedAuthority{
+public class Privilege implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -35,6 +35,6 @@ public class Privilege implements GrantedAuthority{
 
     @Override
     public String getAuthority() {
-        return id.toString();
+        return name;
     }
 }

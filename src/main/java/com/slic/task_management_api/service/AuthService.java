@@ -5,7 +5,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
-import com.slic.task_management_api.dto.LoginUserRequest;
+import com.slic.task_management_api.dto.LoginUserRequestDto;
 import com.slic.task_management_api.model.User;
 import com.slic.task_management_api.repository.UserRepository;
 
@@ -25,14 +25,14 @@ public class AuthService {
         this.userRepository = userRepository;
     }
 
-    public User authenticate(LoginUserRequest params) {
+    public User login(LoginUserRequestDto req) {
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
-                params.getEmail(),
-                params.getPassword()
+                req.getEmail(),
+                req.getPassword()
             )
         );
 
-        return userRepository.findByEmail(params.getEmail());
+        return userRepository.findByEmail(req.getEmail());
     }
 }
