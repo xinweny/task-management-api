@@ -13,7 +13,7 @@ import com.slic.task_management_api.dto.UserDto;
 import com.slic.task_management_api.model.User;
 import com.slic.task_management_api.service.AuthService;
 import com.slic.task_management_api.service.JwtService;
-
+import com.slic.task_management_api.service.UserService;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -22,14 +22,17 @@ public class AuthController {
 
     private final AuthService authService;
 
-    public AuthController(JwtService jwtService, AuthService authService) {
+    private final UserService userService;
+
+    public AuthController(JwtService jwtService, AuthService authService, UserService userService) {
         this.jwtService = jwtService;
         this.authService = authService;
+        this.userService = userService;
     }
 
     @PostMapping("/signup")
     public ResponseEntity<User> register(@RequestBody CreateUserRequest createUserRequest) {
-        User user = authService.createUser(createUserRequest);
+        User user = userService.createUser(createUserRequest);
 
         return ResponseEntity.ok(user);
     }
