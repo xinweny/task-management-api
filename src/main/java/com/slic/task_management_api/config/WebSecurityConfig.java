@@ -17,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.slic.task_management_api.middleware.JwtAuthenticationFilter;
+import com.slic.task_management_api.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -29,12 +30,12 @@ public class WebSecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Autowired
-    private final com.slic.task_management_api.service.UserDetailsService userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
 
     public WebSecurityConfig(
         JwtAuthenticationFilter jwtAuthenticationFilter,
         AuthenticationProvider authenticationProvider,
-        com.slic.task_management_api.service.UserDetailsService userDetailsService
+        UserDetailsServiceImpl userDetailsService
     ) {
         this.authenticationProvider = authenticationProvider;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
@@ -62,7 +63,8 @@ public class WebSecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest()
+                .authenticated()
             )
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

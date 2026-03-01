@@ -2,6 +2,8 @@ package com.slic.task_management_api.model;
 
 import java.util.List;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Role {
+public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -40,4 +42,9 @@ public class Role {
         inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id")
     )
     private List<Privilege> privileges;
+
+    @Override
+    public String getAuthority() {
+        return id.toString();
+    }
 }

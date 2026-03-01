@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.CascadeType;
@@ -71,29 +70,11 @@ public class User implements UserDetails {
 
     @Override
     public List<? extends GrantedAuthority> getAuthorities() {
-        return getGrantedAuthorities(getPermissions(this.roles));
-    }
-
-    private List<String> getPermissions(Collection<Role> roles) {
-        List<String> permissions = new ArrayList<>();
-        List<Privilege> privileges = new ArrayList<>();
-        
-        for (Role role: roles) {
-            permissions.add(role.getName()); // Add role name as permission
-            privileges.addAll(role.getPrivileges()); // Get all privileges from the role
-        }
-
-        for (Privilege privilege: privileges) {
-            permissions.add(privilege.getName()); // Add privilege name as permission
-        }
-        return permissions;
-    }
-
-    private List<GrantedAuthority> getGrantedAuthorities(Collection<String> permissions) {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        for (String permission: permissions) {
-            authorities.add(new SimpleGrantedAuthority(permission));
+        for (Role role: this.roles) {
+            authorities.add(role);
+            authorities.addAll(role.getPrivileges());
         }
 
         return authorities;

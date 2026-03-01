@@ -2,6 +2,8 @@ package com.slic.task_management_api.model;
 
 import java.util.List;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Privilege {
+public class Privilege implements GrantedAuthority{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -30,4 +32,9 @@ public class Privilege {
 
     @ManyToMany(mappedBy = "privileges")
     private List<Role> roles;
+
+    @Override
+    public String getAuthority() {
+        return id.toString();
+    }
 }
