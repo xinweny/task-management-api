@@ -1,4 +1,4 @@
-package com.slic.task_management_api.model.entity;
+package com.slic.task_management_api.model;
 
 import java.util.Collection;
 import java.util.Date;

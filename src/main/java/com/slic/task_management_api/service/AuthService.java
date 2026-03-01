@@ -5,10 +5,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.slic.task_management_api.model.dto.CreateUserRequest;
-import com.slic.task_management_api.model.dto.LoginUserRequest;
-import com.slic.task_management_api.model.entity.User;
-import com.slic.task_management_api.model.repository.UserRepository;
+import com.slic.task_management_api.dto.CreateUserRequest;
+import com.slic.task_management_api.dto.LoginUserRequest;
+import com.slic.task_management_api.model.User;
+import com.slic.task_management_api.repository.UserRepository;
 
 @Service
 public class AuthService {
@@ -20,9 +20,9 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthService(
-            UserRepository userRepository,
-            AuthenticationManager authenticationManager,
-            PasswordEncoder passwordEncoder
+        UserRepository userRepository,
+        AuthenticationManager authenticationManager,
+        PasswordEncoder passwordEncoder
     ) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
@@ -31,21 +31,22 @@ public class AuthService {
 
     public User createUser(CreateUserRequest params) {
         User user = User.builder()
-                .username(params.getUsername())
-                .password(passwordEncoder.encode(params.getPassword()))
-                .build();
+            .username(params.getUsername())
+            .password(passwordEncoder.encode(params.getPassword()))
+            .build();
         return userRepository.save(user);
     }
 
     public User authenticate(LoginUserRequest params) {
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        params.getUsername(),
-                        params.getPassword()
-                )
+            new UsernamePasswordAuthenticationToken(
+            params.getUsername(),
+            params.getPassword()
+            )
         );
 
-        return userRepository.findByUsername(params.getUsername())
-                .orElseThrow();
+        return userRepository
+            .findByUsername(params.getUsername())
+            .orElseThrow();
     }
 }

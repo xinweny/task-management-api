@@ -1,4 +1,4 @@
-package com.slic.task_management_api.model.dto;
+package com.slic.task_management_api.dto;
 
 import lombok.Builder;
 import lombok.Data;

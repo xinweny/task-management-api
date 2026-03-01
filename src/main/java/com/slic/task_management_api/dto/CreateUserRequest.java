@@ -1,9 +1,9 @@
-package com.slic.task_management_api.model.dto;
+package com.slic.task_management_api.dto;
 
 import lombok.Data;
 
 @Data
-public class LoginUserRequest {
+public class CreateUserRequest {
     private String username;
     private String password;
 }

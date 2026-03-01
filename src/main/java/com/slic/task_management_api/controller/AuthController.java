@@ -5,16 +5,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.slic.task_management_api.model.dto.CreateUserRequest;
-import com.slic.task_management_api.model.entity.User;
+import com.slic.task_management_api.dto.CreateUserRequest;
+import com.slic.task_management_api.dto.LoginUserRequest;
+import com.slic.task_management_api.dto.LoginUserResponse;
+import com.slic.task_management_api.dto.UserDto;
+import com.slic.task_management_api.model.User;
 import com.slic.task_management_api.service.AuthService;
 import com.slic.task_management_api.service.JwtService;
 
 import org.springframework.web.bind.annotation.PostMapping;
-
-import com.slic.task_management_api.model.dto.LoginUserRequest;
-import com.slic.task_management_api.model.dto.LoginUserResponse;
-import com.slic.task_management_api.model.dto.UserDto;
 
 
 @RestController
