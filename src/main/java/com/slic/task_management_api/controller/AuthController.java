@@ -1,6 +1,7 @@
 package com.slic.task_management_api.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,8 +13,6 @@ import com.slic.task_management_api.dto.UserDto;
 import com.slic.task_management_api.model.User;
 import com.slic.task_management_api.service.AuthService;
 import com.slic.task_management_api.service.JwtService;
-
-import org.springframework.web.bind.annotation.PostMapping;
 
 
 @RestController
