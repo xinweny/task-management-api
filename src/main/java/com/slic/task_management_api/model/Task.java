@@ -27,14 +27,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // Needed for JPA to instantiate class through reflection
 public class Task {
 	@Id
-  	@GeneratedValue(strategy = GenerationType.IDENTITY)
+  	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@Column(nullable = false)
   	private String name;
 
-	@Column(name = "is_completed")
+	@Column(name = "completed")
 	@Default
-	private Boolean isCompleted = false;
+	private Boolean completed = false;
   	
 	@CreationTimestamp
 	@Column(updatable = false, name = "created_at")
