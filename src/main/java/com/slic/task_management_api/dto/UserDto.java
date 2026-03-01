@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
+@Builder // Enforce builder design pattern to enforce immutability and "named parameters"
 public class UserDto {
     private Long id;
     private String userName;
