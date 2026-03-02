@@ -15,6 +15,8 @@ import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Builder.Default;
@@ -39,12 +41,14 @@ public class Task {
 	private Long id;
 
 	@Column(nullable = false)
-  	private String title;
+	@NotBlank
+  @Size(max = 256)
+  private String title;
 
 	@Column(name = "completed")
 	@Default
 	private Boolean completed = false;
-  	
+
 	@CreationTimestamp
 	@Column(updatable = false, name = "created_at")
 	private Date createdAt;

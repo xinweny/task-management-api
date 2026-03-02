@@ -22,6 +22,10 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -45,12 +49,20 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(unique = true, nullable = false)
+    @NotBlank
+    @Size(min = 2, max = 64)
+    @Pattern(regexp = "^[A-Za-z0-9]*$", message = "Alphanumeric characters only")
     private String name;
 
     @Column(unique = true, nullable = false)
+    @NotBlank
+    @Email
+    @Size(max = 320)
     private String email;
 
     @Column(nullable = false)
+    @NotBlank
+    @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
 
     @CreationTimestamp

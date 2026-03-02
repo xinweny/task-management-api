@@ -11,6 +11,7 @@ import com.slic.task_management_api.repository.RoleRepository;
 import com.slic.task_management_api.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @Service
 public class UserService {
@@ -32,7 +33,7 @@ public class UserService {
 
     @Transactional
     public User createUser(CreateUserRequestDTO dto) {
-        User user = User.builder()
+        @Valid User user = User.builder()
             .name(dto.getName())
             .email(dto.getEmail())
             .password(passwordEncoder.encode(dto.getPassword()))

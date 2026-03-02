@@ -29,8 +29,6 @@ import com.slic.task_management_api.model.User;
 import com.slic.task_management_api.service.TaskService;
 import com.slic.task_management_api.service.UserService;
 
-import jakarta.validation.Valid;
-
 @RestController
 @RequestMapping("/api/tasks")
 public class TaskController {
@@ -54,7 +52,7 @@ public class TaskController {
     @PostMapping("/")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseDTO<?>> createTask(
-        @RequestBody @Valid CreateTaskRequestDTO req
+        @RequestBody CreateTaskRequestDTO req
     ) {
         User user = req.getUserId() != null
             ? userService.getUserById(req.getUserId())

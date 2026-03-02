@@ -3,10 +3,10 @@ package com.slic.task_management_api.dto;
 import lombok.Data;
 
 @Data
-public class ErrorDTO {
-    private String error;
+public class ErrorDTO<T> {
+    private T error;
 
-    public ErrorDTO(String error) {
+    public ErrorDTO(T error) {
         this.error = error;
     }
 }

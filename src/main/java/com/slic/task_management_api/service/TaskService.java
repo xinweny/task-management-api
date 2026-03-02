@@ -10,6 +10,7 @@ import com.slic.task_management_api.model.User;
 import com.slic.task_management_api.repository.TaskRepository;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @Service
 public class TaskService {
@@ -21,7 +22,7 @@ public class TaskService {
 
     @Transactional
     public Task createTask(CreateTaskRequestDTO params, User user) {
-        Task task = Task.builder()
+        @Valid Task task = Task.builder()
             .title(params.getTitle())
             .user(user) // Can be null if not assigned
             .build();
@@ -49,7 +50,7 @@ public class TaskService {
     }
 
     @Transactional
-    public Task updateTaskStatus(Task task, Boolean completed) {
+    public Task updateTaskStatus(@Valid Task task, Boolean completed) {
         task.setCompleted(completed);
 
         return taskRepository.save(task);
