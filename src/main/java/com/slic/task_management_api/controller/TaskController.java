@@ -2,6 +2,7 @@ package com.slic.task_management_api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,7 +26,6 @@ import com.slic.task_management_api.service.TaskService;
 import com.slic.task_management_api.service.UserService;
 
 import jakarta.validation.Valid;
-
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -98,7 +98,7 @@ public class TaskController {
         @PathVariable Long taskId,
         @RequestBody AssignTaskRequestDto req
     ) {
-        User user = userService.getUserById(req.userId);
+        User user = userService.getUserById(req.getUserId());
 
         if (user != null) {
             Task task = taskService.getTaskById(taskId);
@@ -112,13 +112,14 @@ public class TaskController {
     }
 
     @PatchMapping("/{taskId}")
+    @PostAuthorize("@taskService.getTaskById(#taskId)?.user?.id == authentication.principal.id")
     public ResponseEntity<ResponseDto<?>> updateTask(  
         @PathVariable Long taskId,
         @RequestBody UpdateTaskRequestDto req
     ) {
         Task task = taskService.getTaskById(taskId);
 
-        taskService.updateTaskStatus(task, req.completed);
+        taskService.updateTaskStatus(task, req.getCompleted());
         
         return ResponseEntity.ok(ResponseDto.builder()
             .message("Task updated successfully")
