@@ -1,5 +1,7 @@
 package com.slic.task_management_api.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +26,17 @@ public class TaskService {
             .build();
         
         return taskRepository.save(task);
+    }
+
+    public List<Task> getAllTasks() {
+        return taskRepository.findAll();
+    }
+
+    public List<Task> getTasksByUserId(Long userId) {
+        return taskRepository.findByUserId(userId);
+    }
+
+    public void deleteTask(Long taskId) {
+        taskRepository.deleteById(taskId);
     }
 }
