@@ -24,7 +24,6 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -50,7 +49,6 @@ public class User implements UserDetails {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Getter
     @Column(nullable = false)
     private String password;
 
@@ -58,7 +56,7 @@ public class User implements UserDetails {
     @Column(updatable = false, name = "created_at")
     private Date createdAt;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH, orphanRemoval = false)
     private List<Task> tasks;
 
     @ManyToMany 
