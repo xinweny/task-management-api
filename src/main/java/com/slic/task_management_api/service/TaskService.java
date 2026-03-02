@@ -22,7 +22,7 @@ public class TaskService {
     public Task createTask(CreateTaskRequestDto params, User user) {
         Task task = Task.builder()
             .title(params.getTitle())
-            .user(user)
+            .user(user) // Can be null if not assigned
             .build();
         
         return taskRepository.save(task);
@@ -32,11 +32,29 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
+    public Task getTaskById(Long taskId) {
+        return taskRepository.findById(taskId).orElse(null);
+    }
+
     public List<Task> getTasksByUserId(Long userId) {
         return taskRepository.findByUserId(userId);
+    }
+
+    public Task assignTaskToUser(Long taskId, User user) {
+        Task task = getTaskById(taskId);
+
+        if (task != null) {
+            task.setUser(user);
+
+            return taskRepository.save(task);
+        }
+
+        return null;
     }
 
     public void deleteTask(Long taskId) {
         taskRepository.deleteById(taskId);
     }
+
+    
 }

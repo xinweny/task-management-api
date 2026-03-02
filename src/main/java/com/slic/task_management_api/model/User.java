@@ -76,13 +76,6 @@ public class User implements UserDetails {
 
     @Override
     public List<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-
-        for (Role role: this.roles) {
-            authorities.add(role);
-            authorities.addAll(role.getPrivileges());
-        }
-
-        return authorities;
+        return new ArrayList<>(roles);
     }
 }

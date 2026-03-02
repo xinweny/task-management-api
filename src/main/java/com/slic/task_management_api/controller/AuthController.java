@@ -47,21 +47,25 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<ResponseDto<LoginUserResponseDto>> authenticate(@RequestBody LoginUserRequestDto loginUserRequest) {
-        User authenticatedUser = authService.login(loginUserRequest);
+        User user = authService.login(loginUserRequest);
 
-        String jwtToken = jwtService.generateToken(authenticatedUser);
+        String jwtToken = jwtService.generateToken(user);
 
-        ResponseDto<LoginUserResponseDto> response = new ResponseDto<>(
-            new LoginUserResponseDto(
-                jwtToken,
-                authenticatedUser.getId(),
-                authenticatedUser.getUsername(),
-                authenticatedUser.getName(),
-                jwtService.getExpirationTime()
-            ),
-            null
+        LoginUserResponseDto data = LoginUserResponseDto.builder()
+            .token(jwtToken)
+            .expiresIn(jwtService.getExpirationTime())
+            .build();
+
+        data.setUser(data.new User(
+            user.getId(),
+            user.getEmail(),
+            user.getName()
+        ));
+
+        return ResponseEntity.ok(ResponseDto.<LoginUserResponseDto>builder()
+            .data(data)
+            .message("Login successful")
+            .build()
         );
-
-        return ResponseEntity.ok(response);
     }
 }
