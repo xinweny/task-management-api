@@ -41,10 +41,13 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<User> register(@RequestBody @Valid CreateUserRequestDto req) {
-        User user = userService.createUser(req);
+    public ResponseEntity<ResponseDto<?>> register(@RequestBody @Valid CreateUserRequestDto req) {
+        userService.createUser(req);
 
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(ResponseDto.builder()
+            .message("User created successfully")
+            .build()
+        );
     }
 
     @PostMapping("/login")
