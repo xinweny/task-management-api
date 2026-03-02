@@ -16,6 +16,8 @@ import com.slic.task_management_api.service.AuthService;
 import com.slic.task_management_api.service.JwtService;
 import com.slic.task_management_api.service.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -39,14 +41,14 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<User> register(@RequestBody CreateUserRequestDto req) {
+    public ResponseEntity<User> register(@RequestBody @Valid CreateUserRequestDto req) {
         User user = userService.createUser(req);
 
         return ResponseEntity.ok(user);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseDto<LoginUserResponseDto>> authenticate(@RequestBody LoginUserRequestDto loginUserRequest) {
+    public ResponseEntity<ResponseDto<LoginUserResponseDto>> authenticate(@RequestBody @Valid LoginUserRequestDto loginUserRequest) {
         User user = authService.login(loginUserRequest);
 
         String jwtToken = jwtService.generateToken(user);

@@ -23,6 +23,8 @@ import com.slic.task_management_api.model.User;
 import com.slic.task_management_api.service.TaskService;
 import com.slic.task_management_api.service.UserService;
 
+import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -45,7 +47,7 @@ public class TaskController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseDto<?>> createTask(
         @AuthenticationPrincipal User user,
-        @RequestBody CreateTaskRequestDto req
+        @RequestBody @Valid CreateTaskRequestDto req
     ) {
         taskService.createTask(req, user);
 
@@ -89,7 +91,7 @@ public class TaskController {
         );
     }
 
-    @PatchMapping("/{taskId}")
+    @PatchMapping(value = "/{taskId}", params = "assign")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseDto<?>> assignTask(  
         @PathVariable Long taskId,
@@ -97,8 +99,10 @@ public class TaskController {
     ) {
         User user = userService.getUserById(req.getUserId());
 
-        taskService.assignTaskToUser(taskId, user);
-
+        if (user != null) {
+            taskService.assignTaskToUser(taskId, user);
+        }
+        
         return ResponseEntity.ok(ResponseDto.builder()
             .message("Task assigned successfully")
             .build()
