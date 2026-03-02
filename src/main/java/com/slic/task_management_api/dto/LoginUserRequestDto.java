@@ -2,12 +2,14 @@ package com.slic.task_management_api.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
 
+@Getter
 public class LoginUserRequestDto {
     @NotBlank
     @Email
-    public String email;
+    private String email;
 
     @NotBlank
-    public String password;
+    private String password;
 }

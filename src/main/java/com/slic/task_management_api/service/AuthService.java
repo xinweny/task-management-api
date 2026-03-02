@@ -28,11 +28,11 @@ public class AuthService {
     public User login(LoginUserRequestDto req) {
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
-                req.email,
-                req.password
+                req.getEmail(),
+                req.getPassword()
             )
         );
 
-        return userRepository.findByEmail(req.email);
+        return userRepository.findByEmail(req.getEmail());
     }
 }

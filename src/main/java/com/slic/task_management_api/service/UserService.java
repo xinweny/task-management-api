@@ -34,8 +34,9 @@ public class UserService {
 
     public User createUser(CreateUserRequestDto req) {
         User user = User.builder()
-            .name(req.name)
-            .password(passwordEncoder.encode(req.password))
+            .name(req.getName())
+            .email(req.getEmail())
+            .password(passwordEncoder.encode(req.getPassword()))
             .roles(Arrays.asList(roleRepository.findByName("ROLE_USER"))) // Add user role by default
             .build();
         

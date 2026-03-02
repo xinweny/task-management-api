@@ -1,5 +1,8 @@
 package com.slic.task_management_api.dto;
 
+import lombok.Getter;
+
+@Getter
 public class UpdateTaskRequestDto {
-    public Boolean completed;
+    private Boolean completed;
 }

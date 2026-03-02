@@ -21,7 +21,7 @@ public class TaskService {
 
     public Task createTask(CreateTaskRequestDto params, User user) {
         Task task = Task.builder()
-            .title(params.title)
+            .title(params.getTitle())
             .user(user) // Can be null if not assigned
             .build();
         
@@ -55,6 +55,4 @@ public class TaskService {
     public void deleteTask(Long taskId) {
         taskRepository.deleteById(taskId);
     }
-
-    
 }
