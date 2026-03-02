@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,7 +32,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor // Needed for JPA to instantiate class through reflection
+@NoArgsConstructor // Needed by Hibernate to instantiate class through reflection
 public class Task {
 	@Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -52,7 +53,7 @@ public class Task {
 	@Column(name = "updated_at")
 	private Date updatedAt;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER) // Always fetch associated user details
 	@JoinColumn(name = "user_id")
 	private User user;
 }

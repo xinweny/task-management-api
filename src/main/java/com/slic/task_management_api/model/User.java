@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -56,10 +57,15 @@ public class User implements UserDetails {
     @Column(updatable = false, name = "created_at")
     private Date createdAt;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH, orphanRemoval = false)
+    @OneToMany(
+        mappedBy = "user",
+        cascade = CascadeType.REFRESH,
+        orphanRemoval = false,
+        fetch = FetchType.LAZY
+    )
     private List<Task> tasks;
 
-    @ManyToMany 
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable( 
         name = "users_roles", 
         joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
