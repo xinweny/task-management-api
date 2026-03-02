@@ -1,5 +1,7 @@
 package com.slic.task_management_api.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.slic.task_management_api.dto.AssignTaskRequestDto;
 import com.slic.task_management_api.dto.CreateTaskRequestDto;
 import com.slic.task_management_api.dto.GetTaskResponseDto;
-import com.slic.task_management_api.dto.GetTasksResponseDto;
 import com.slic.task_management_api.dto.ResponseDto;
 import com.slic.task_management_api.dto.UpdateTaskRequestDto;
 import com.slic.task_management_api.model.Task;
@@ -59,11 +60,29 @@ public class TaskController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<ResponseDto<GetTasksResponseDto>> getTasks(
+    public ResponseEntity<ResponseDto<List<GetTaskResponseDto>>> getTasks(
         @AuthenticationPrincipal User user
     ) {
-        return ResponseEntity.ok(ResponseDto.<GetTasksResponseDto>builder()
-            .data(null)
+        List<Task> tasks = taskService.getAllTasks();
+
+        return ResponseEntity.ok(ResponseDto.<List<GetTaskResponseDto>>builder()
+            .data(tasks.stream().map(task -> {
+                GetTaskResponseDto dto = GetTaskResponseDto.builder()
+                    .id(task.getId())
+                    .title(task.getTitle())
+                    .completed(task.getCompleted())
+                    .createdAt(task.getCreatedAt())
+                    .updatedAt(task.getUpdatedAt())
+                    .build();
+
+                User taskUser = task.getUser();
+
+                if (taskUser != null) {
+                    dto.setUser(dto.new User(taskUser.getId(), taskUser.getName()));
+                }
+
+                return dto;
+            }).toList())
             .build()
         );
     }
