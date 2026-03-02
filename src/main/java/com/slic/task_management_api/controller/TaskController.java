@@ -18,6 +18,7 @@ import com.slic.task_management_api.dto.CreateTaskRequestDto;
 import com.slic.task_management_api.dto.GetTaskResponseDto;
 import com.slic.task_management_api.dto.GetTasksResponseDto;
 import com.slic.task_management_api.dto.ResponseDto;
+import com.slic.task_management_api.dto.UpdateTaskRequestDto;
 import com.slic.task_management_api.model.Task;
 import com.slic.task_management_api.model.User;
 import com.slic.task_management_api.service.TaskService;
@@ -97,14 +98,30 @@ public class TaskController {
         @PathVariable Long taskId,
         @RequestBody AssignTaskRequestDto req
     ) {
-        User user = userService.getUserById(req.getUserId());
+        User user = userService.getUserById(req.userId);
 
         if (user != null) {
-            taskService.assignTaskToUser(taskId, user);
+            Task task = taskService.getTaskById(taskId);
+            taskService.assignTaskToUser(task, user);
         }
         
         return ResponseEntity.ok(ResponseDto.builder()
             .message("Task assigned successfully")
+            .build()
+        );
+    }
+
+    @PatchMapping("/{taskId}")
+    public ResponseEntity<ResponseDto<?>> updateTask(  
+        @PathVariable Long taskId,
+        @RequestBody UpdateTaskRequestDto req
+    ) {
+        Task task = taskService.getTaskById(taskId);
+
+        taskService.updateTaskStatus(task, req.completed);
+        
+        return ResponseEntity.ok(ResponseDto.builder()
+            .message("Task updated successfully")
             .build()
         );
     }

@@ -21,7 +21,7 @@ public class TaskService {
 
     public Task createTask(CreateTaskRequestDto params, User user) {
         Task task = Task.builder()
-            .title(params.getTitle())
+            .title(params.title)
             .user(user) // Can be null if not assigned
             .build();
         
@@ -40,16 +40,16 @@ public class TaskService {
         return taskRepository.findByUserId(userId);
     }
 
-    public Task assignTaskToUser(Long taskId, User user) {
-        Task task = getTaskById(taskId);
+    public Task assignTaskToUser(Task task, User user) {
+        task.setUser(user);
 
-        if (task != null) {
-            task.setUser(user);
+        return taskRepository.save(task);
+    }
 
-            return taskRepository.save(task);
-        }
+    public Task updateTaskStatus(Task task, Boolean completed) {
+        task.setCompleted(completed);
 
-        return null;
+        return taskRepository.save(task);
     }
 
     public void deleteTask(Long taskId) {
