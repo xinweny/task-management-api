@@ -7,4 +7,6 @@ import lombok.Getter;
 public class CreateTaskRequestDTO {
     @NotBlank
     private String title;
+
+    private Long userId;
 }
