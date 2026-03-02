@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 @Getter
-public class CreateTaskRequestDto {
+public class CreateTaskRequestDTO {
     @NotBlank
     private String title;
 }

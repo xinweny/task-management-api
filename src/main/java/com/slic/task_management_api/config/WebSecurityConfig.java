@@ -1,6 +1,5 @@
 package com.slic.task_management_api.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
@@ -25,13 +24,10 @@ import com.slic.task_management_api.service.UserDetailsServiceImpl;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class WebSecurityConfig {
-    @Autowired
     private final AuthenticationProvider authenticationProvider;
 
-    @Autowired
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Autowired
     private final UserDetailsServiceImpl userDetailsService;
 
     public WebSecurityConfig(

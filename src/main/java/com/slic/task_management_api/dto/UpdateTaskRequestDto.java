@@ -3,6 +3,6 @@ package com.slic.task_management_api.dto;
 import lombok.Getter;
 
 @Getter
-public class UpdateTaskRequestDto {
+public class UpdateTaskRequestDTO {
     private Boolean completed;
 }

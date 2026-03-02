@@ -1,21 +1,12 @@
 package com.slic.task_management_api.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class LoginUserResponseDto {
-    @Data
-    @AllArgsConstructor
-    public class User {
-        private Long id;
-        private String email;
-        private String name;
-    }
-
+public class LoginUserResponseDTO {
     private String token;
-    private User user;
+    private UserDTO user;
     private long expiresIn;
 }

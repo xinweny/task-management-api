@@ -2,7 +2,6 @@ package com.slic.task_management_api.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,11 +15,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.slic.task_management_api.dto.AssignTaskRequestDto;
-import com.slic.task_management_api.dto.CreateTaskRequestDto;
-import com.slic.task_management_api.dto.GetTaskResponseDto;
-import com.slic.task_management_api.dto.ResponseDto;
-import com.slic.task_management_api.dto.UpdateTaskRequestDto;
+import com.slic.task_management_api.dto.AssignTaskRequestDTO;
+import com.slic.task_management_api.dto.CreateTaskRequestDTO;
+import com.slic.task_management_api.dto.ResponseDTO;
+import com.slic.task_management_api.dto.TaskDTO;
+import com.slic.task_management_api.dto.UpdateTaskRequestDTO;
+import com.slic.task_management_api.mapper.TaskMapper;
+import com.slic.task_management_api.mapper.UserMapper;
 import com.slic.task_management_api.model.Task;
 import com.slic.task_management_api.model.User;
 import com.slic.task_management_api.service.TaskService;
@@ -31,91 +32,64 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/tasks")
 public class TaskController {
-    @Autowired
     private final TaskService taskService;
 
-    @Autowired
     private final UserService userService;
+
+    private final TaskMapper taskMapper;
 
     public TaskController(
         TaskService taskService,
-        UserService userService
+        UserService userService,
+        TaskMapper taskMapper,
+        UserMapper userMapper
     ) {
         this.taskService = taskService;
         this.userService = userService;
+        this.taskMapper = taskMapper;
     }
 
     @PostMapping("/")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ResponseDto<?>> createTask(
+    public ResponseEntity<ResponseDTO<?>> createTask(
         @AuthenticationPrincipal User user,
-        @RequestBody @Valid CreateTaskRequestDto req
+        @RequestBody @Valid CreateTaskRequestDTO req
     ) {
         taskService.createTask(req, user);
 
-        return ResponseEntity.ok(ResponseDto.builder()
+        return ResponseEntity.ok(ResponseDTO.builder()
             .message("Task created successfully")
             .build()
         );
     }
 
     @GetMapping("/")
-    public ResponseEntity<ResponseDto<List<GetTaskResponseDto>>> getTasks(
+    public ResponseEntity<ResponseDTO<List<TaskDTO>>> getTasks(
         @AuthenticationPrincipal User user
     ) {
         List<Task> tasks = taskService.getAllTasks();
 
-        return ResponseEntity.ok(ResponseDto.<List<GetTaskResponseDto>>builder()
-            .data(tasks.stream().map(task -> {
-                GetTaskResponseDto dto = GetTaskResponseDto.builder()
-                    .id(task.getId())
-                    .title(task.getTitle())
-                    .completed(task.getCompleted())
-                    .createdAt(task.getCreatedAt())
-                    .updatedAt(task.getUpdatedAt())
-                    .build();
-
-                User taskUser = task.getUser();
-
-                if (taskUser != null) {
-                    dto.setUser(dto.new User(taskUser.getId(), taskUser.getName()));
-                }
-
-                return dto;
-            }).toList())
+        return ResponseEntity.ok(ResponseDTO.<List<TaskDTO>>builder()
+            .data(tasks.stream().map(taskMapper::toDTO).toList())
             .build()
         );
     }
 
     @GetMapping("/{taskId}")
-    public ResponseEntity<ResponseDto<GetTaskResponseDto>> getTask(@PathVariable Long taskId) {
+    public ResponseEntity<ResponseDTO<TaskDTO>> getTask(@PathVariable Long taskId) {
         Task task = taskService.getTaskById(taskId);
 
-        GetTaskResponseDto dto = GetTaskResponseDto.builder()
-            .id(task.getId())
-            .title(task.getTitle())
-            .completed(task.getCompleted())
-            .createdAt(task.getCreatedAt())
-            .updatedAt(task.getUpdatedAt())
-            .build();
-
-        User user = task.getUser();
-
-        if (user != null) {
-            dto.setUser(dto.new User(user.getId(), user.getName()));
-        }
-
-        return ResponseEntity.ok(ResponseDto.<GetTaskResponseDto>builder()
-            .data(dto)
+        return ResponseEntity.ok(ResponseDTO.<TaskDTO>builder()
+            .data(taskMapper.toDTO(task))
             .build()
         );
     }
 
     @PatchMapping(value = "/{taskId}", params = "assign")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ResponseDto<?>> assignTask(  
+    public ResponseEntity<ResponseDTO<?>> assignTask(  
         @PathVariable Long taskId,
-        @RequestBody AssignTaskRequestDto req
+        @RequestBody AssignTaskRequestDTO req
     ) {
         User user = userService.getUserById(req.getUserId());
 
@@ -124,7 +98,7 @@ public class TaskController {
             taskService.assignTaskToUser(task, user);
         }
         
-        return ResponseEntity.ok(ResponseDto.builder()
+        return ResponseEntity.ok(ResponseDTO.builder()
             .message("Task assigned successfully")
             .build()
         );
@@ -132,15 +106,15 @@ public class TaskController {
 
     @PatchMapping("/{taskId}")
     @PostAuthorize("@taskService.getTaskById(#taskId)?.user?.id == authentication.principal.id")
-    public ResponseEntity<ResponseDto<?>> updateTask(  
+    public ResponseEntity<ResponseDTO<?>> updateTask(  
         @PathVariable Long taskId,
-        @RequestBody UpdateTaskRequestDto req
+        @RequestBody UpdateTaskRequestDTO req
     ) {
         Task task = taskService.getTaskById(taskId);
 
         taskService.updateTaskStatus(task, req.getCompleted());
         
-        return ResponseEntity.ok(ResponseDto.builder()
+        return ResponseEntity.ok(ResponseDTO.builder()
             .message("Task updated successfully")
             .build()
         );
@@ -148,12 +122,12 @@ public class TaskController {
     
     @DeleteMapping("/{taskId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ResponseDto<?>> deleteTask(
+    public ResponseEntity<ResponseDTO<?>> deleteTask(
         @PathVariable Long taskId
     ) {
         taskService.deleteTask(taskId);
 
-        return ResponseEntity.ok(ResponseDto.builder()
+        return ResponseEntity.ok(ResponseDTO.builder()
             .message("Task deleted successfully")
             .build()
         );
