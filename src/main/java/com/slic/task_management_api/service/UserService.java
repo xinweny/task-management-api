@@ -10,6 +10,8 @@ import com.slic.task_management_api.model.User;
 import com.slic.task_management_api.repository.RoleRepository;
 import com.slic.task_management_api.repository.UserRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -28,11 +30,12 @@ public class UserService {
         this.roleRepository = roleRepository;
     }
 
-    public User createUser(CreateUserRequestDTO req) {
+    @Transactional
+    public User createUser(CreateUserRequestDTO dto) {
         User user = User.builder()
-            .name(req.getName())
-            .email(req.getEmail())
-            .password(passwordEncoder.encode(req.getPassword()))
+            .name(dto.getName())
+            .email(dto.getEmail())
+            .password(passwordEncoder.encode(dto.getPassword()))
             .roles(Arrays.asList(roleRepository.findByName("ROLE_USER"))) // Add user role by default
             .build();
         

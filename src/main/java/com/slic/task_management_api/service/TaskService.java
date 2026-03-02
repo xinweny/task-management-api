@@ -9,6 +9,8 @@ import com.slic.task_management_api.model.Task;
 import com.slic.task_management_api.model.User;
 import com.slic.task_management_api.repository.TaskRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class TaskService {
     private final TaskRepository taskRepository;
@@ -17,6 +19,7 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
+    @Transactional
     public Task createTask(CreateTaskRequestDTO params, User user) {
         Task task = Task.builder()
             .title(params.getTitle())
@@ -38,18 +41,21 @@ public class TaskService {
         return taskRepository.findByUserId(userId);
     }
 
+    @Transactional
     public Task assignTaskToUser(Task task, User user) {
         task.setUser(user);
 
         return taskRepository.save(task);
     }
 
+    @Transactional
     public Task updateTaskStatus(Task task, Boolean completed) {
         task.setCompleted(completed);
 
         return taskRepository.save(task);
     }
 
+    @Transactional
     public void deleteTask(Long taskId) {
         taskRepository.deleteById(taskId);
     }

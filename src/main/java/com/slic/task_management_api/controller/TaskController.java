@@ -21,6 +21,7 @@ import com.slic.task_management_api.dto.CreateTaskRequestDTO;
 import com.slic.task_management_api.dto.ResponseDTO;
 import com.slic.task_management_api.dto.TaskDTO;
 import com.slic.task_management_api.dto.UpdateTaskRequestDTO;
+import com.slic.task_management_api.exception.ResourceNotFoundException;
 import com.slic.task_management_api.mapper.TaskMapper;
 import com.slic.task_management_api.mapper.UserMapper;
 import com.slic.task_management_api.model.Task;
@@ -103,10 +104,12 @@ public class TaskController {
     ) {
         User user = userService.getUserById(req.getUserId());
 
-        if (user != null) {
-            Task task = taskService.getTaskById(taskId);
-            taskService.assignTaskToUser(task, user);
+        if (user == null) {
+            throw new ResourceNotFoundException("User not found");
         }
+
+        Task task = taskService.getTaskById(taskId);
+        taskService.assignTaskToUser(task, user);
         
         return ResponseEntity.ok(ResponseDTO.builder()
             .message("Task assigned successfully")

@@ -11,8 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -77,22 +75,13 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        try {
-            return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignInKey())
-                .setAllowedClockSkewSeconds(30) // Optional: allow slight clock skew (30s)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-        } catch (ExpiredJwtException e) {
-            // Token is expired, but we still may want to extract claims for specific use-cases
-            return e.getClaims(); // Or return null if you don't want to proceed
-        } catch (JwtException e) {
-            // Any other parsing issue (e.g., malformed, unsupported, signature issues)
-            // Log and/or throw a custom exception
-            return null;
-        }
+        return Jwts
+            .parserBuilder()
+            .setSigningKey(getSignInKey())
+            .setAllowedClockSkewSeconds(30) // Optional: allow slight clock skew (30s)
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
     }
 
     private Key getSignInKey() {
