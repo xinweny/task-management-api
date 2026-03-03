@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -49,7 +48,7 @@ public class TaskController {
         this.taskMapper = taskMapper;
     }
 
-    @PostMapping("/")
+    @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseDTO<?>> createTask(
         @RequestBody CreateTaskRequestDTO req
@@ -66,11 +65,13 @@ public class TaskController {
         );
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<ResponseDTO<List<TaskDTO>>> getTasks(
         @AuthenticationPrincipal User user
     ) {
-        Boolean isAdmin = user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        Boolean isAdmin = user.getAuthorities()
+            .stream()
+            .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
 
         List<Task> tasks = isAdmin
             ? taskService.getAllTasks() // Get all tasks if admin

@@ -4,6 +4,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.slic.task_management_api.model.User;
 import com.slic.task_management_api.repository.UserRepository;
@@ -17,6 +18,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
         

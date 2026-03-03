@@ -4,13 +4,13 @@ import java.util.Arrays;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.slic.task_management_api.dto.CreateUserRequestDTO;
 import com.slic.task_management_api.model.User;
 import com.slic.task_management_api.repository.RoleRepository;
 import com.slic.task_management_api.repository.UserRepository;
 
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @Service
@@ -43,6 +43,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    @Transactional(readOnly = true)
     public User getUserById(Long userId) {
         return userRepository.findById(userId).orElse(null);
     }

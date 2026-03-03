@@ -3,13 +3,13 @@ package com.slic.task_management_api.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.slic.task_management_api.dto.CreateTaskRequestDTO;
 import com.slic.task_management_api.model.Task;
 import com.slic.task_management_api.model.User;
 import com.slic.task_management_api.repository.TaskRepository;
 
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @Service
