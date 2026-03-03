@@ -8,6 +8,8 @@ import com.slic.task_management_api.dto.LoginUserRequestDTO;
 import com.slic.task_management_api.model.User;
 import com.slic.task_management_api.repository.UserRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class AuthService {
     private final UserRepository userRepository;
@@ -22,6 +24,7 @@ public class AuthService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     public User login(LoginUserRequestDTO req) {
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
@@ -31,10 +34,6 @@ public class AuthService {
         );
 
         User user = userRepository.findByEmail(req.getEmail());
-
-        // Initial fetch of user roles and tasks for lazy-loading
-        user.getRoles().size();
-        user.getTasks().size();
 
         return user;
     }

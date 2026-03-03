@@ -94,6 +94,6 @@ public class User implements UserDetails {
 
     @Override
     public List<? extends GrantedAuthority> getAuthorities() {
-        return new ArrayList<>(roles);
+        return new ArrayList<>(this.getRoles());
     }
 }
