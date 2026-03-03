@@ -7,11 +7,13 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.slic.task_management_api.dto.ErrorDTO;
 
@@ -60,6 +62,14 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorDTO<String>> handleBadCredentialsException(BadCredentialsException e) {
+        return new ResponseEntity<>(
+            new ErrorDTO<>("Incorrect credentials"),
+            HttpStatus.UNAUTHORIZED
+        );
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorDTO<Map<String, String>>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         Map<String, String> errors = new HashMap<>();
@@ -76,8 +86,18 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorDTO<String>> handleNoResourceFoundException(NoResourceFoundException e) {
+        return new ResponseEntity<>(
+            new ErrorDTO<>("Page not found"),
+            HttpStatus.NOT_FOUND
+        );
+    }
+
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorDTO<String>> handleGeneralException(Exception e) {
+    public ResponseEntity<ErrorDTO<String>> handleException(Exception e) {
+        e.printStackTrace();
+
         return new ResponseEntity<>(
             new ErrorDTO<>("Internal Server Error"),
             HttpStatus.INTERNAL_SERVER_ERROR

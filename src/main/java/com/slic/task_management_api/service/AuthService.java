@@ -30,6 +30,12 @@ public class AuthService {
             )
         );
 
-        return userRepository.findByEmail(req.getEmail());
+        User user = userRepository.findByEmail(req.getEmail());
+
+        // Initial fetch of user roles and tasks for lazy-loading
+        user.getRoles().size();
+        user.getTasks().size();
+
+        return user;
     }
 }

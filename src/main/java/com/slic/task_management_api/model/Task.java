@@ -20,8 +20,9 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Builder.Default;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(
@@ -31,7 +32,8 @@ import lombok.NoArgsConstructor;
 				@Index(name = "idx_title", columnList = "title"),
 		}
 )
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor // Needed by Hibernate to instantiate class through reflection
