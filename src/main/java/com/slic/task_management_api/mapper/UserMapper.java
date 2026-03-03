@@ -1,8 +1,11 @@
 package com.slic.task_management_api.mapper;
 
+import org.springframework.stereotype.Component;
+
 import com.slic.task_management_api.dto.UserDTO;
 import com.slic.task_management_api.model.User;
 
+@Component
 public class UserMapper implements Mapper<User, UserDTO> {
     @Override
     public UserDTO toDTO(User user) {
