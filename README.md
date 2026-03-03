@@ -4,6 +4,11 @@ A task management REST API built using the [Spring Boot](https://spring.io/proje
 
 ## Installation & Setup
 
+Please ensure that the following prerequisites are met:
+
+- [Java Development Kit (JDK)](https://en.wikipedia.org/wiki/Java_Development_Kit) and [Maven](https://maven.apache.org/) installed on your system
+- An empty [PostgreSQL](https://www.postgresql.org/) database set up and running
+
 ```shell
   # Clone the repository
   git clone https://github.com/xinweny/task-management-api.git
@@ -24,7 +29,7 @@ For example tests and use-cases of this API, please download the JSON files in t
 - [x] CRUD functionality for task management, with role-based authorisation
   - `ROLE_ADMIN` can view all, create, assign and delete tasks
   - `ROLE_USER` can view and update (mark as complete/incomplete) assigned tasks
-- Data persistence with [PostgreSQL](https://www.postgresql.org/) database with indexing for efficient querying
+- Data persistence with PostgreSQL database, with indexing for efficient querying
 - [x] Error handling with `@ControllerAdvice`
 - [x] User input validation with [Spring Validation](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-validation.html)
 
