@@ -23,12 +23,11 @@ import lombok.NonNull;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
-    private final HandlerExceptionResolver handlerExceptionResolver;
-
     private final JwtService jwtService;
 
     private final UserDetailsServiceImpl userDetailsService;
+
+    private final HandlerExceptionResolver handlerExceptionResolver;
 
     public JwtAuthenticationFilter(
         JwtService jwtService,

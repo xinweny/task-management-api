@@ -18,10 +18,10 @@ import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtService {
-    @Value("${security.jwt.secret-key}")
+    @Value("${spring.security.jwt.secret-key}")
     private String secretKey;
 
-    @Value("${security.jwt.expiration-time}")
+    @Value("${spring.security.jwt.expiration-time}")
     private long jwtExpiration;
 
     public String extractUsername(String token) {
@@ -46,10 +46,9 @@ public class JwtService {
     }
 
     private String buildToken(
-        Map<String, Object> extraClaims,
-        UserDetails userDetails,
-        long expiration
-    ) {
+            Map<String, Object> extraClaims,
+            UserDetails userDetails,
+            long expiration) {
         return Jwts
             .builder()
             .setClaims(extraClaims)
@@ -76,12 +75,12 @@ public class JwtService {
 
     private Claims extractAllClaims(String token) {
         return Jwts
-            .parserBuilder()
-            .setSigningKey(getSignInKey())
-            .setAllowedClockSkewSeconds(30) // Optional: allow slight clock skew (30s)
-            .build()
-            .parseClaimsJws(token)
-            .getBody();
+                .parserBuilder()
+                .setSigningKey(getSignInKey())
+                .setAllowedClockSkewSeconds(30) // Optional: allow slight clock skew (30s)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     private Key getSignInKey() {

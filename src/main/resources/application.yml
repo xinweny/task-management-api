@@ -1,9 +1,14 @@
-server:
-  port: 8080
-
 spring:
+  config:
+    import: optional:file:.env[.properties]
   application:
     name: ms-auth-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
   jpa:
     open-in-view: false
     properties:
@@ -11,19 +16,14 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
-  datasource:
-    url: ${POSTGRESDB_URL}
-    username: ${POSTGRESDB_USERNAME}
-    password: ${POSTGRESDB_PASSWORD}
-    driver-class-name: org.postgresql.Driver
+    defer-datasource-initialization: true
+    sql.init.mode: always
+    show-sql: true
 
-security:
-  jwt:
-    secret-key: ${JWT_SECRET_KEY}
-    expiration-time: ${JWT_EXPIRATION_TIME}
+  security:
+    jwt:
+      secret-key: ${AUTH_JWT_SECRET}
+      expiration-time: ${AUTH_JWT_EXPIRATION}
 
-app:
-  admin:
-    username: ${ADMIN_USERNAME}
-    email: ${ADMIN_EMAIL}
-    password: ${ADMIN_PASSWORD}
+server:
+  port: 8080
