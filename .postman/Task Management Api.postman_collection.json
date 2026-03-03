@@ -1,0 +1,297 @@
+{
+  "info": {
+    "_postman_id": "73c5afca-859b-4a9a-bcba-64ea6757783f",
+    "name": "Task Management Api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "8301660"
+  },
+  "item": [
+    {
+      "name": "Create User",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"user2\",\n    \"email\": \"user2@example.com\",\n    \"password\": \"password\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/auth/signup",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "signup"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login (Admin)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"email\": \"admin@example.com\",\n    \"password\": \"password\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/auth/login",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Tasks (Admin)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsImlhdCI6MTc3MjUyNzc5NCwiZXhwIjoxNzc1MTU3NTQwfQ.camDok7P_3Q0n8D_eolEgSwWLKjAqfEkng-fD1mu89A",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/tasks",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "tasks"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Task (Admin)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsImlhdCI6MTc3MjUyNzc5NCwiZXhwIjoxNzc1MTU3NTQwfQ.camDok7P_3Q0n8D_eolEgSwWLKjAqfEkng-fD1mu89A",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"title\": \"Schedule meeting\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/tasks",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "tasks"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Assign Task (Admin)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsImlhdCI6MTc3MjUyNzc5NCwiZXhwIjoxNzc1MTU3NTQwfQ.camDok7P_3Q0n8D_eolEgSwWLKjAqfEkng-fD1mu89A",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"userId\": 2\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}api/tasks/1?assign=true",
+          "host": [
+            "{{url}}api"
+          ],
+          "path": [
+            "tasks",
+            "1"
+          ],
+          "query": [
+            {
+              "key": "assign",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Task (Admin)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsImlhdCI6MTc3MjUyNzc5NCwiZXhwIjoxNzc1MTU3NTQwfQ.camDok7P_3Q0n8D_eolEgSwWLKjAqfEkng-fD1mu89A",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/tasks/2",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "tasks",
+            "2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login (User)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"email\": \"user@example.com\",\n    \"password\": \"password\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/auth/login",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Task (User)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQGV4YW1wbGUuY29tIiwiaWF0IjoxNzcyNTQ1NjA5LCJleHAiOjE3NzUxNzUzNTV9.mXlua8BT5mYpRn7w3L7tkCs7tcyLgSpHR5hxjcajnL4",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"completed\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/tasks/1",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "tasks",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Tasks (User)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQGV4YW1wbGUuY29tIiwiaWF0IjoxNzcyNTQ1NjA5LCJleHAiOjE3NzUxNzUzNTV9.mXlua8BT5mYpRn7w3L7tkCs7tcyLgSpHR5hxjcajnL4",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/tasks",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "tasks"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
