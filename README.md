@@ -29,7 +29,7 @@ For example tests and use-cases of this API, please download the JSON files in t
 - [x] CRUD functionality for task management, with role-based authorisation
   - `ROLE_ADMIN` can view all, create, assign and delete tasks
   - `ROLE_USER` can view and update (mark as complete/incomplete) assigned tasks
-- Data persistence with PostgreSQL database, with indexing for efficient querying
+- [x] Data persistence with PostgreSQL database, with indexing for efficient querying
 - [x] Error handling with `@ControllerAdvice`
 - [x] User input validation with [Spring Validation](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-validation.html)
 
